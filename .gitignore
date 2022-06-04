@@ -15,6 +15,9 @@
 *.userosscache
 *.sln.docstates
 
+# Release files
+RatingProjectAppNet/publikuj/
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
