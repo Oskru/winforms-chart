@@ -38,13 +38,17 @@ namespace RatingProjectAppNet
                 Match m = expression.Match(line);   // Zmienna typu System.Text.RegularExpressions.Match zawiera informacje o matchu
 
 
-                int number = int.Parse(m.Value);   // Przekonwertowanie zmiennej m na wartość liczbową
-                ratings.Add(number);   // Wpisanie prawidłowej wartości liczbowej do listy ratings
-
-                int intStr; bool result = int.TryParse(number.ToString(), out intStr);
-                if (result == true)   // Jeśli konwersja się powiodła
+                // Wykonywanie operacji tylko, gdy trafimy na match, odrzucanie wartości innych niż liczby
+                if (m.Success)
                 {
-                    file_text += intStr.ToString() + "\r\n";
+                    int number = int.Parse(m.Value);   // Przekonwertowanie zmiennej m na wartość liczbową
+                    ratings.Add(number);   // Wpisanie prawidłowej wartości liczbowej do listy ratings
+
+                    int intStr; bool result = int.TryParse(number.ToString(), out intStr);
+                    if (result == true)   // Jeśli konwersja się powiodła
+                    {
+                        file_text += intStr.ToString() + "\r\n";
+                    }
                 }
             }
 
