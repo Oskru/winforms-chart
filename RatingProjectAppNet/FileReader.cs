@@ -32,15 +32,16 @@ namespace RatingProjectAppNet
 
             Regex expression = new Regex("^[0-9]*$");   // Regex wybierający tylko liczby
 
-            string[] lines = File.ReadAllLines(path);
+            string[] lines = File.ReadAllLines(path);   // Pobieranie danych z pliku
+
+            // Czyszczenie / zerowanie listy w przypadku, gdy dane zostały już wcześniej załadowane
+            // oraz chcemy pobrać nowe wartości do listy
+            if (ratings.Any())
+                ratings.Clear();
+
             foreach (string line in lines)
             {
                 Match m = expression.Match(line);   // Zmienna typu System.Text.RegularExpressions.Match zawiera informacje o matchu
-
-                // Czyszczenie / zerowanie listy w przypadku, gdy dane zostały już wcześniej załadowane
-                // oraz chcemy pobrać nowe wartości do listy
-                if (ratings.Any())
-                    ratings.Clear();
 
                 // Wykonywanie operacji tylko, gdy trafimy na match, odrzucanie wartości innych niż liczby
                 if (m.Success)
