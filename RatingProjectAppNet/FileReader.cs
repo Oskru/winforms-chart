@@ -37,6 +37,10 @@ namespace RatingProjectAppNet
             {
                 Match m = expression.Match(line);   // Zmienna typu System.Text.RegularExpressions.Match zawiera informacje o matchu
 
+                // Czyszczenie / zerowanie listy w przypadku, gdy dane zostały już wcześniej załadowane
+                // oraz chcemy pobrać nowe wartości do listy
+                if (ratings.Any())
+                    ratings.Clear();
 
                 // Wykonywanie operacji tylko, gdy trafimy na match, odrzucanie wartości innych niż liczby
                 if (m.Success)
@@ -69,11 +73,7 @@ namespace RatingProjectAppNet
             // Uzyskiwanie liczby powtórzeń dla przedziału od num do num+1 i sumowanie tych wartości
             int count1 = ratings.Where(x => x.Equals(num)).Count();
             int count2 = ratings.Where(x => x.Equals(num+1)).Count();
-            int quant = count1 + count2;
-
-            //string num1 = num.ToString();
-            //string num2 = (num + 1).ToString();
-            //int quant = Regex.Matches(FileReader.file_text, num.ToString()).Count + Regex.Matches(FileReader.file_text, (num + 1).ToString()).Count;
+            int quant = count1 + count2;   // Sumowanie zliczeń
             
             return quant;
         }
@@ -81,7 +81,7 @@ namespace RatingProjectAppNet
         public static string num_range(int num)
         // Metoda num_range() zwraca wartość tekstową, która określa zakres danego przedziału liczbowego
         // Np. dla num=1 zwraca string "1-2"
-        // Używane w pętli iteracyjnej for przy tworzeniu wykresu
+        // Używane w pętli iteracyjnej for przy wstawianiu opisu tekstowego osi X
         {
             string range = String.Format("{0}-{1}", num, num+1);
             return range;
@@ -103,8 +103,8 @@ namespace RatingProjectAppNet
 
                 for (int i = 0; i < max_value; i++)
                 {
-                    int range1 = i;
-                    int range2 = i + 1;
+                    int range1 = i;   // Pierwsza liczba zakresu przedziału
+                    int range2 = i + 1;   // Druga liczba zakresu przedziału
                     saved_text += String.Format("{0}-{1}) {2}\n", range1, range2, count(i));
                 }
 
@@ -113,14 +113,14 @@ namespace RatingProjectAppNet
                 saveFile.Filter = "TXT files|*.txt";
                 saveFile.DefaultExt = "txt";
                 saveFile.Title = "Save histogram file";
-                if (saveFile.ShowDialog() == DialogResult.OK)
+                if (saveFile.ShowDialog() == DialogResult.OK)   // Jeśli operacja wyboru ścieżki się powiodła
                 {
                     MessageBox.Show("Pomyślnie zapisano plik!", "Powiadomienie");
                     save_path = saveFile.FileName.ToString();   // Uzyskiwanie ścieżki do zapisu pliku
                     saved = true;   // Ustawianie flagi saved na true w przypadku powodzenia
                 }
 
-                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(save_path, false))   // Otwieranie context managera
+                using (System.IO.StreamWriter sw = new System.IO.StreamWriter(save_path, false))   // Otwieranie strumienia danych
                 {
                     sw.WriteLine(saved_text);   // Wpisywanie tekstu do pliku
                     sw.Close();   // Zamykanie strumienia
