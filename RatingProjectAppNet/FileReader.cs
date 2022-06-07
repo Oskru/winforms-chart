@@ -59,11 +59,13 @@ namespace RatingProjectAppNet
 
             if (ratings == null || file_text == "")   // Jeśli lista ratings jest pusta oraz nie uzyskano wartości liczbowych
             {
-                MessageBox.Show("Plik musi zawierać wartości liczbowe!", "Błąd");
+                MessageBox.Show("Plik musi zawierać wartości liczbowe!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                saved = false;
             }
             else
             {
-                MessageBox.Show("Pomyślnie załadowano plik!", "Powiadomienie");
+                MessageBox.Show("Pomyślnie załadowano plik!", "Powiadomienie",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                saved = true;
             }
         }
 
@@ -116,7 +118,7 @@ namespace RatingProjectAppNet
                 saveFile.Title = "Save histogram file";
                 if (saveFile.ShowDialog() == DialogResult.OK)   // Jeśli operacja wyboru ścieżki się powiodła
                 {
-                    MessageBox.Show("Pomyślnie zapisano plik!", "Powiadomienie");
+                    MessageBox.Show("Pomyślnie zapisano plik!", "Powiadomienie", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     save_path = saveFile.FileName.ToString();   // Uzyskiwanie ścieżki do zapisu pliku
                     saved = true;   // Ustawianie flagi saved na true w przypadku powodzenia
                 }

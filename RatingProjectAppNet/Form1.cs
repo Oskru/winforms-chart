@@ -20,12 +20,20 @@ namespace RatingProjectAppNet
             try
             {
                 reader.load_file();
-                b_savefile.Enabled = true;
-                b_chart.Enabled = true;
+                if (FileReader.saved == true)
+                {
+                    b_savefile.Enabled = true;
+                    b_chart.Enabled = true;
+                }
+                else
+                {
+                    b_savefile.Enabled = false;
+                    b_chart.Enabled = false;
+                }
             }
             catch (System.ArgumentException)
             {
-                MessageBox.Show("Wybierz poprawny plik do odczytu!", "Błąd odczytu");
+                MessageBox.Show("Wybierz poprawny plik do odczytu!", "Błąd odczytu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FileReader.loaded = false;
                 b_savefile.Enabled = false;
                 b_chart.Enabled = false;
@@ -45,13 +53,15 @@ namespace RatingProjectAppNet
             }
             catch (System.ArgumentException)
             {
-                MessageBox.Show("Wybierz poprawną ścieżkę do zapisu pliku!", "Błąd");
+                MessageBox.Show("Wybierz poprawną ścieżkę do zapisu pliku!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FileReader.saved = false;
             }
             catch (System.InvalidOperationException)
             {
-                MessageBox.Show("Plik nie może nie zawierać wartości liczbowych!", "Błąd");
+                MessageBox.Show("Plik nie może nie zawierać wartości liczbowych!", "Błąd", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FileReader.saved = false;
+                b_savefile.Enabled = false;
+                b_chart.Enabled = false;
             }
         }
 
